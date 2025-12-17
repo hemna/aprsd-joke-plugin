@@ -90,6 +90,16 @@ class JokeAPIPlugin(plugin.APRSDRegexCommandPluginBase):
             #
             return []
 
+    def help(self):
+        """Return help message with available languages and categories."""
+        help_lines = [
+            f"{self.command_name.lower()}: Get a random joke",
+            "Usage: j [l=<lang>] [c=<cat>]",
+            f"Languages: {', '.join(self.allowed_languages)}",
+            f"Categories: {', '.join(sorted(self.category_mapping.keys()))}",
+        ]
+        return help_lines
+
     def get_joke(self, language: str, category: str) -> str:
         """Get a joke from the joke API."""
         url = f"https://v2.jokeapi.dev/joke/{category}?lang={language}&blacklistFlags=explicit"
