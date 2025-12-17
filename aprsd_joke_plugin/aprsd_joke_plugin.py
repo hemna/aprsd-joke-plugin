@@ -167,3 +167,78 @@ class JokeAPIPlugin(plugin.APRSDRegexCommandPluginBase):
 
         # Now we can process
         return "some reply message"
+
+
+class DadJokePlugin(plugin.APRSDRegexCommandPluginBase):
+    """Plugin that gets a random dad joke from icanhazdadjoke.com.
+
+    You can find the API documentation here: https://icanhazdadjoke.com/api
+
+    This plugin responds to messages starting with 'd' or 'D' and returns
+    a random dad joke from the icanhazdadjoke.com API.
+    """
+
+    version = aprsd_joke_plugin.__version__
+    command_regex = "^[dD]"
+    command_name = "dadjoke"
+
+    enabled = False
+
+    def setup(self):
+        """Allows the plugin to do some 'setup' type checks in here.
+
+        If the setup checks fail, set the self.enabled = False.  This
+        will prevent the plugin from being called when packets are
+        received."""
+        self.enabled = True
+
+    def create_threads(self):
+        """This allows you to create and return a custom APRSDThread object.
+
+        Create a child of the aprsd.threads.APRSDThread object and return it
+        It will automatically get started.
+
+        You can see an example of one here:
+        https://github.com/craigerl/aprsd/blob/master/aprsd/threads.py#L141
+        """
+        if self.enabled:
+            return []
+
+    def help(self):
+        """Return help message for the dad joke plugin."""
+        help_lines = [
+            f"{self.command_name.lower()}: Get a random dad joke",
+            "Usage: d",
+        ]
+        return help_lines
+
+    def get_dad_joke(self) -> dict:
+        """Get a dad joke from the icanhazdadjoke.com API."""
+        url = "https://icanhazdadjoke.com/"
+        headers = {
+            "Accept": "application/json",
+            "User-Agent": "APRSD DadJoke Plugin (https://github.com/hemna/aprsd-joke-plugin)",
+        }
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json()
+
+    @trace.trace
+    def process(self, packet: packets.core.Packet):
+        """This is called when a received packet matches self.command_regex.
+
+        This is only called when self.enabled = True and the command_regex
+        matches in the contents of the packet["message_text"]."""
+
+        LOG.info("DadJokePlugin Plugin")
+
+        # Get the dad joke
+        try:
+            joke_data = self.get_dad_joke()
+            joke_text = joke_data.get("joke", "No joke found.")
+            LOG.debug(f"Dad joke: {joke_text}")
+            # Wrap the joke to fit APRS message limits (67 characters per line)
+            return textwrap.wrap(joke_text, 67, break_long_words=False)
+        except Exception as e:
+            LOG.error(f"Error getting dad joke: {e}")
+            return "Error getting dad joke"
