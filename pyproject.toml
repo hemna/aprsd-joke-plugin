@@ -125,11 +125,10 @@ classifiers = [
 
 # If you are using a different build backend, you will need to change this.
 [tool.setuptools]
-# If there are data files included in your packages that need to be
-# installed, specify them here.
-py-modules = ["aprsd_joke_plugin"]
+# Packages to include
+# Packages to include - use find: to auto-discover all packages and subpackages
+packages = {find = {}}
 package-data = {"sample" = ["*.dat"]}
-packages = ["aprsd_joke_plugin"]
 
 [build-system]
 requires = [
