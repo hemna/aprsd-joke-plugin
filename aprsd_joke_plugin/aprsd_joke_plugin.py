@@ -72,7 +72,7 @@ class JokeAPIPlugin(plugin.APRSDRegexCommandPluginBase):
         will prevent the plugin from being called when packets are
         received."""
         # Do some checks here?
-        self.enabled = True
+        self.enabled = CONF.aprsd_joke_plugin.enabled
 
     def create_threads(self):
         """This allows you to create and return a custom APRSDThread object.
@@ -112,6 +112,10 @@ class JokeAPIPlugin(plugin.APRSDRegexCommandPluginBase):
 
         This is only called when self.enabled = True and the command_regex
         matches in the contents of the packet["message_text"]."""
+
+        if not self.enabled:
+            LOG.info("JokeAPIPlugin Plugin is not enabled")
+            return
 
         LOG.info("JokeAPIPlugin Plugin")
         message = packet.message_text
