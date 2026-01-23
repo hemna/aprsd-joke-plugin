@@ -123,6 +123,9 @@ classifiers = [
 [project.entry-points."oslo.config.opts"]
     "aprsd_joke_plugin.conf" = "aprsd_joke_plugin.conf.opts:list_opts"
 
+[project.scripts]
+    "aprsd-joke-plugin-export-config" = "aprsd_joke_plugin.cli:main"
+
 # If you are using a different build backend, you will need to change this.
 [tool.setuptools]
 # Packages to include
