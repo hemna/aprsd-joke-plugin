@@ -191,6 +191,54 @@ Get a spooky joke in French:
 
       j l=fr c=sp
 
+Example Interaction
+-------------------
+
+Here's an example of how a user would interact with the plugin via APRS messages:
+
+**User sends:**
+   ::
+
+      j
+
+**APRSD responds:**
+   ::
+
+      Why don't scientists trust atoms? Because they make up everything!
+
+**User sends:**
+   ::
+
+      j c=prog
+
+**APRSD responds:**
+   ::
+
+      Why do programmers prefer dark mode? Because light attracts bugs!
+
+**User sends:**
+   ::
+
+      j l=es c=pun
+
+**APRSD responds:**
+   ::
+
+      ¿Qué hace una abeja en el gimnasio? ¡Zum-ba!
+
+**User sends:**
+   ::
+
+      j c=dark
+
+**APRSD responds:**
+   ::
+
+      I was wondering why the frisbee was getting bigger, then it hit me.
+
+Note: Responses are automatically wrapped to fit APRS message limits (67 characters per line),
+so longer jokes may be split across multiple messages.
+
 How It Works
 ------------
 

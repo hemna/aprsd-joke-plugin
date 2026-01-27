@@ -20,6 +20,14 @@ aprsd\_joke\_plugin.aprsd\_joke\_plugin module
    :show-inheritance:
    :undoc-members:
 
+aprsd\_joke\_plugin.cli module
+------------------------------
+
+.. automodule:: aprsd_joke_plugin.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 Module contents
 ---------------
 
